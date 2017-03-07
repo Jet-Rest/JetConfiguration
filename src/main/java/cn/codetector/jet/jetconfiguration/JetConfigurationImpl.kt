@@ -4,12 +4,12 @@ package cn.codetector.jet.jetconfiguration
  * Created by Codetector on 2017/3/7.
  * Project Classroom
  */
-class JetConfiguratoinImpl(map: Map<String, Any> = HashMap()) : JetConfiguration {
+class JetConfigurationImpl(map: Map<String, Any> = HashMap()) : JetConfiguration {
 
-    internal val store: MutableMap<String, Any> = HashMap(map)
+    private val store: MutableMap<String, Any> = HashMap(map)
 
-    override fun get(key: String, defaultValue: Any): Any {
-        return Any()
+    override fun getValueStore(): Map<String, Any> {
+        return this.store
     }
 
     override fun getString(key: String, defaultValue: String): String {
@@ -25,22 +25,9 @@ class JetConfiguratoinImpl(map: Map<String, Any> = HashMap()) : JetConfiguration
         store.put(key, value)
     }
 
-    override fun getShort(key: String, defaultValue: Short): Short {
-        if (store.containsKey(key) && store[key] is Short) {
-            return store[key] as Short
-        } else {
-            set(key, defaultValue)
-            return getShort(key, defaultValue)
-        }
-    }
-
-    override fun set(key: String, value: Short) {
-        store.put(key, value)
-    }
-
     override fun getInteger(key: String, defaultValue: Int): Int {
-        if (store.containsKey(key) && store[key] is Int) {
-            return store[key] as Int
+        if (store.containsKey(key) && store[key] is Int || store[key] is Double) {
+            return (store[key] as Double).toInt()
         } else {
             set(key, defaultValue)
             return getInteger(key, defaultValue)
@@ -48,20 +35,7 @@ class JetConfiguratoinImpl(map: Map<String, Any> = HashMap()) : JetConfiguration
     }
 
     override fun set(key: String, value: Int) {
-        store.put(key, value)
-    }
-
-    override fun getFloat(key: String, defaultValue: Float): Float {
-        if (store.containsKey(key) && store[key] is Float) {
-            return store[key] as Float
-        } else {
-            set(key, defaultValue)
-            return getFloat(key, defaultValue)
-        }
-    }
-
-    override fun set(key: String, value: Float) {
-        store.put(key, value)
+        store.put(key, value.toDouble())
     }
 
     override fun getDouble(key: String, defaultValue: Double): Double {
@@ -78,7 +52,7 @@ class JetConfiguratoinImpl(map: Map<String, Any> = HashMap()) : JetConfiguration
     }
 
     override fun getBoolean(key: String, defaultValue: Boolean): Boolean {
-        if (store.containsKey(key) && store[key] is Boolean){
+        if (store.containsKey(key) && store[key] is Boolean) {
             return store[key] as Boolean
         } else {
             set(key, defaultValue)
@@ -96,5 +70,9 @@ class JetConfiguratoinImpl(map: Map<String, Any> = HashMap()) : JetConfiguration
 
     override fun set(key: String, value: Collection<String>) {
         store.put(key, value)
+    }
+
+    override fun toString(): String {
+        return store.toString()
     }
 }

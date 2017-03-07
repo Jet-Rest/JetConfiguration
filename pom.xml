@@ -6,11 +6,35 @@
 
     <artifactId>jet-configuration</artifactId>
     <groupId>cn.codetector.jet</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <properties>
         <kotlin.version>1.1.0</kotlin.version>
+        <gson.version>2.8.0</gson.version>
+        <dokka.version>0.9.13</dokka.version>
+        <junit.version>5.0.0-M3</junit.version>
     </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>codetectorRepoRelease</id>
+            <name>codetectorRelease</name>
+            <url>http://nexus.codetector.cn/repository/codetector/</url>
+        </repository>
+        <repository>
+            <id>codetectorRepoStage</id>
+            <name>codetectorStaging</name>
+            <url>http://nexus.codetector.cn/repository/codetector-staging/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -27,8 +51,13 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.0</version>
+            <version>${gson.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
         </dependency>
     </dependencies>
 
@@ -55,7 +84,43 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <version>${dokka.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadocJar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>codetectorRepo</id>
+            <url>http://nexus.codetector.cn/repository/codetector/</url>
+        </repository>
+        <snapshotRepository>
+            <id>codetectorRepo</id>
+            <url>http://nexus.codetector.cn/repository/codetector-staging/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
