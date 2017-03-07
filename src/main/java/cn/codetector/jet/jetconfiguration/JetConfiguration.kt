@@ -1,3 +1,5 @@
+package cn.codetector.jet.jetconfiguration
+
 /**
  * Created by Codetector on 2017/3/6.
  * Project Classroom
@@ -23,5 +25,6 @@ interface JetConfiguration {
     fun getBoolean(key: String, defaultValue: Boolean): Boolean
     fun set(key: String, value: Boolean)
 
-    fun getCollection()
+    fun getCollection(key: String): Collection<String>
+    fun set(key: String, value: Collection<String>)
 }
