@@ -1,10 +1,16 @@
 package cn.codetector.jet.jetconfiguration
 
+import cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializer
+
 /**
  * Created by Codetector on 2017/3/6.
  * Project Classroom
  */
 interface JetConfiguration {
+    var configurationSerializer: JetConfigurationSerializer
+
+    fun save()
+
     fun getValueStore():Map<String, Any>
 
     fun getString(key: String, defaultValue: String = String()):String

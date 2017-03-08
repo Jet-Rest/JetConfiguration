@@ -10,15 +10,10 @@ import com.google.gson.GsonBuilder
  * Project Classroom
  */
 class ConfigurationManager {
-    fun deserializeJson(json: String): JetConfiguration {
-        val gson: Gson = GsonBuilder().serializeNulls().create()!!
-        val stringStringMap = object : TypeToken<Map<String, Any>>() {}.type
-        val map: Map<String, Any> = gson.fromJson(json, stringStringMap)
-        return JetConfigurationImpl(map)
-    }
-
-    fun serializeJson(config: JetConfiguration): String {
-        val gson: Gson = GsonBuilder().serializeNulls().create()
-        return gson.toJson(config.getValueStore())
+    companion object {
+        val defaultManager: ConfigurationManager
+            get() {
+                return ConfigurationManager()
+            }
     }
 }

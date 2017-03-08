@@ -1,11 +1,13 @@
 package cn.codetector.jet.jetconfiguration
 
+import cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializer
+import cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializerOption
+
 /**
  * Created by Codetector on 2017/3/7.
  * Project Classroom
  */
-class JetConfigurationImpl(map: Map<String, Any> = HashMap()) : JetConfiguration {
-
+class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var configurationSerializer: JetConfigurationSerializer, val options: JetConfigurationSerializerOption) : JetConfiguration {
     private val store: MutableMap<String, Any> = HashMap(map)
 
     override fun getValueStore(): Map<String, Any> {
@@ -74,5 +76,9 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap()) : JetConfiguration
 
     override fun toString(): String {
         return store.toString()
+    }
+
+    override fun save() {
+        this.configurationSerializer.save(this, options)
     }
 }
