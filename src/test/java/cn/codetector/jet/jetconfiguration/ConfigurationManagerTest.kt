@@ -14,13 +14,13 @@ internal class ConfigurationManagerTest {
     fun createTestFolder () {
         removeTestFolder()
         testDir.mkdirs()
-        assertTrue(testDir.exists()) // Guarantee the directory is made
+        assertTrue(testDir.exists(), "Guarantee the directory is made") // Guarantee the directory is made
     }
 
     @Test
     fun testJsonConfigurationFileGeneration() {
         val config = ConfigurationManager.defaultManager.setBaseDirectory(testDir).getJsonConfiguration("test")
-        assertTrue(testDir.resolve("test.json").exists())
+        assertTrue(testDir.resolve("test.json").exists() , "Checking for the new Configuration file with .json extension")
     }
 
     @AfterEach
@@ -28,6 +28,6 @@ internal class ConfigurationManagerTest {
         if (testDir.exists()) {
             testDir.deleteRecursively()
         }
-        assertFalse(testDir.exists()) // Guarantee the directory is removed
+        assertFalse(testDir.exists(), "Guarantee the directory is removed") // Guarantee the directory is removed
     }
 }
