@@ -20,6 +20,7 @@ internal class ConfigurationManagerTest {
     @Test
     fun testJsonConfigurationFileGeneration() {
         val config = ConfigurationManager.defaultManager.setBaseDirectory(testDir).getJsonConfiguration("test")
+//        config.save
         assertTrue(testDir.resolve("test.json").exists() , "Checking for the new Configuration file with .json extension")
     }
 

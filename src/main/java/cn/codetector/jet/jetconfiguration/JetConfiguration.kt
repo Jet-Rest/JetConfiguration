@@ -9,10 +9,23 @@ import cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializ
 interface JetConfiguration {
     var configurationSerializer: JetConfigurationSerializer
 
+    /**
+     * Save this configuration according to the specified JetSerializerOption during creation
+     * @see cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializerOption
+     * @since 0.1
+     */
     fun save()
 
+    /**
+     * Get the raw map of all keys
+     * @since 0.1
+     */
     fun getValueStore():Map<String, Any>
 
+    /**
+     * Get the String value for the specified key
+     * @since 0.1
+     */
     fun getString(key: String, defaultValue: String = String()):String
     fun set(key:String, value: String)
 

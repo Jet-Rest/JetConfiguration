@@ -19,8 +19,8 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
         save()
     }
     override fun getString(key: String, defaultValue: String): String {
-        if (store.containsKey(key) && store[key] is String) {
-            return store[key] as String
+        if (store.containsKey(key)) {
+            return store[key].toString()
         } else {
             set(key, defaultValue)
             return getString(key, defaultValue)
