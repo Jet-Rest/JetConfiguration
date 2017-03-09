@@ -6,6 +6,7 @@ import cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializ
 import cn.codetector.jet.jetconfiguration.serialization.JetConfigurationSerializerOption
 import cn.codetector.jet.jetconfiguration.util.asString
 import cn.codetector.jet.jetconfiguration.util.writeString
+import com.google.common.base.Strings
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -18,15 +19,21 @@ import kotlinx.coroutines.experimental.async
  */
 class JsonSerializer : JetConfigurationSerializer {
     override fun deserializeConfiguration(option: JetConfigurationSerializerOption): JetConfiguration {
-        val json = async(CommonPool) {
-            return@async option.location.asString()
+        if (!option.location.exists()) {
+            option.location.createNewFile()
         }
+        val fileResult = option.location.asString()
         val gsonBuilder = GsonBuilder().serializeNulls()
         if (option.beautify) {
             gsonBuilder.setPrettyPrinting()
         }
         val stringStringMap = object : TypeToken<Map<String, Any>>() {}.type
-        val map: Map<String, Any> = gsonBuilder.create().fromJson(json.getCompleted(), stringStringMap)
+        val map: Map<String, Any>
+        if (fileResult.isNullOrEmpty()) {
+            map = HashMap()
+        } else {
+            map = gsonBuilder.create().fromJson(fileResult, stringStringMap)
+        }
         return JetConfigurationImpl(map, this, option)
     }
 

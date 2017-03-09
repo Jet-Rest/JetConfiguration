@@ -14,6 +14,10 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
         return this.store
     }
 
+
+    init {
+        save()
+    }
     override fun getString(key: String, defaultValue: String): String {
         if (store.containsKey(key) && store[key] is String) {
             return store[key] as String
@@ -25,6 +29,7 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
 
     override fun set(key: String, value: String) {
         store.put(key, value)
+        this.save()
     }
 
     override fun getInteger(key: String, defaultValue: Int): Int {
@@ -38,6 +43,7 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
 
     override fun set(key: String, value: Int) {
         store.put(key, value.toDouble())
+        this.save()
     }
 
     override fun getDouble(key: String, defaultValue: Double): Double {
@@ -51,6 +57,7 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
 
     override fun set(key: String, value: Double) {
         store.put(key, value)
+        this.save()
     }
 
     override fun getBoolean(key: String, defaultValue: Boolean): Boolean {
@@ -64,6 +71,7 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
 
     override fun set(key: String, value: Boolean) {
         store.put(key, value)
+        this.save()
     }
 
     override fun getCollection(key: String): Collection<String> {
@@ -72,6 +80,7 @@ class JetConfigurationImpl(map: Map<String, Any> = HashMap(), override var confi
 
     override fun set(key: String, value: Collection<String>) {
         store.put(key, value)
+        this.save()
     }
 
     override fun toString(): String {
