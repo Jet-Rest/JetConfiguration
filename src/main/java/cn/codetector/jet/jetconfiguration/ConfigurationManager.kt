@@ -5,6 +5,7 @@ import cn.codetector.jet.jetconfiguration.serialization.serializer.JsonSerialize
 import com.google.gson.reflect.TypeToken
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.NotDirectoryException
 
@@ -17,6 +18,7 @@ class ConfigurationManager {
     private var baseLocation = File("./")
 
     companion object {
+        private val logger = LoggerFactory.getLogger(ConfigurationManager::class.java)
         val jsonSerializer = JsonSerializer()
 
         val defaultManager: ConfigurationManager
@@ -29,15 +31,18 @@ class ConfigurationManager {
     fun setBaseDirectory(baseDirectory: File) : ConfigurationManager{
         if (baseDirectory.exists()) {
             if (!baseDirectory.isDirectory) {
-                throw NotDirectoryException("${baseDirectory.absolutePath} is not a valid directory")
+                val e = NotDirectoryException("${baseDirectory.absolutePath} is not a valid directory")
+                logger.error("Failed to set configuration base directory", e)
+                throw e
             }
         } else {
+            logger.debug("Making directories for configuration file")
             baseDirectory.mkdirs()
         }
         this.baseLocation = baseDirectory
         return this
     }
-    //Gerneatro Functions
+    //Generators Functions
 
     fun getJsonConfiguration(fileName: String) : JetConfiguration{
         var actualFileName: String = fileName

@@ -26,7 +26,6 @@ internal class ConfigurationManagerTest {
 
     @AfterEach
     fun removeTestFolder () {
-        println("Removing dir")
         if (testDir.exists()) {
             testDir.deleteRecursively()
         }
